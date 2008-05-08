@@ -76,7 +76,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
 
         m.dependency 'rcg_command', ["Destroy#{@model_class}", "#{base_package_name}", "--skip-create"]
 
-        m.dependency 'rcg_class_mapping', [@model_class, "@{base_package_name}.vo"]
+        m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end
 
     end
