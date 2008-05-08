@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cairngorm:ServiceLocator
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:cairngorm="http://www.adobe.com/2006/cairngorm">
+<!--	<mx:RemoteObject id="clinicRO"
+		source="ClinicsController"
+		destination="rubyamf">
+		<mx:method name="index"/>
+		<mx:method name="create"/>
+		<mx:method name="update"/>
+		<mx:method name="destroy"/>
+	</mx:RemoteObject>-->
+</cairngorm:ServiceLocator>
