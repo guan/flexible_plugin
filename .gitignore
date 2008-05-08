@@ -11,3 +11,5 @@ log/*.log
 .loadpath
 .project
 .svn
+*~
+
