@@ -47,6 +47,16 @@ class RcgCommandGenerator < Rails::Generator::NamedBase
         end
       end
 
+      # Add Import
+      import_command_str = "import #{@command_name};"
+      unless control_str =~ /(#{Regexp.escape(import_command_str)})/mi
+        import_reg = "import com.adobe.cairngorm.control.FrontController;"
+        m.gsub_file control_path,
+        /(#{Regexp.escape(import_reg)})/mi do |match|
+          "#{match}\n    #{import_command_str}"
+        end
+      end
+
       unless options[:ignore_create]
         m.template 'Command.as',
                    File.join(options[:base],

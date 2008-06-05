@@ -1,6 +1,6 @@
 package <%= base_package_name %>.model {
-    import com.adobe.cairngorm.model.IModelLocator;    
-    
+    import com.adobe.cairngorm.model.IModelLocator;
+
     import flash.display.DisplayObject;
     import mx.collections.ArrayCollection;
     import mx.collections.ListCollectionView;
@@ -12,14 +12,20 @@ package <%= base_package_name %>.model {
         //
         private static var modelLocator:ApplicationModelLocator;
 
+        //DONOT DELETE COMMENT BELOW
+        //public properties stuff
+
         public static function getInstance():ApplicationModelLocator{
             if (modelLocator == null) {
                 modelLocator = new ApplicationModelLocator();
             }
             return modelLocator;
         }
-        
-        
+
+        //DONOT DELETE COMMENT BELOW
+        //model resources
+
+
         //The constructor should be private, but this is not
         //possible in ActionScript 3.0. So, throwing an Error if
         //a second PomodoModelLocator is created is the best we

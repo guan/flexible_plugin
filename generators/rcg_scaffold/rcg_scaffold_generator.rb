@@ -28,7 +28,6 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
       m.dependency 'rcg', [@base_package_name]
 
       unless options[:use_xml] # Use AMF
-#        p "#{@base_package_name}.#{class_name.camelcase}VO"
         m.dependency 'rcg_vo', [class_name, "#{@vo_name}"] + args
         m.dependency 'rcg_model', [class_name, "#{@vo_name}", "#{@model_name}"] + args
         # scaffold stuff
@@ -54,7 +53,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
                    File.join(options[:base],
                              @base_package_path,
                              'command',
-                             "List#{@model_class.pluralize}Command.as")
+                             "List#{@model_class}Command.as")
 
         m.dependency 'rcg_command', ["List#{@model_class}", "#{base_package_name}", "--skip-create"]
 
@@ -75,6 +74,50 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
                              "Destroy#{@model_class}Command.as")
 
         m.dependency 'rcg_command', ["Destroy#{@model_class}", "#{base_package_name}", "--skip-create"]
+
+        # ApplicationController
+        model_locator_path = "#{options[:base]}/#{@base_package_path}/model/ApplicationModelLocator.as"
+        model_locator_str = open("#{RAILS_ROOT}/#{model_locator_path}").read
+        collection_str = "public var #{@model_class.pluralize.downcase}:ListCollectionView;"
+        unless model_locator_str =~ /(#{Regexp.escape(collection_str)})/mi
+          add_reg = "public properties stuff"
+          m.gsub_file model_locator_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n        #{collection_str}"
+          end
+        end
+
+        # Import VO
+        vo_str = "import #{vo_name};"
+        unless model_locator_str =~ /(#{Regexp.escape(vo_str)})/mi
+          add_reg = "import com.adobe.cairngorm.model.IModelLocator;"
+          m.gsub_file model_locator_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n\n    #{vo_str}"
+          end
+        end
+
+        # Add setter method
+        setter_str = <<-EOS
+    public function set#{model_class.pluralize}(#{model_class.downcase}VOs:Array):void {
+            var #{model_class.pluralize.downcase}Array:Array = [];
+            for each (var item:#{vo_class} in #{model_class.downcase}s) {
+                var #{model_class.downcase}:#{model_class} = #{model_class}Base.fromVO(item);
+                #{model_class.pluralize.downcase}Array.push(#{model_class.downcase});
+            }
+            #{model_class.pluralize.downcase} = new ArrayCollection(#{model_class.pluralize.downcase}Array);
+        }
+        EOS
+
+        unless model_locator_str =~ /(#{Regexp.escape(setter_str)})/mi
+          add_reg = "model resources"
+          m.gsub_file model_locator_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n\n    #{setter_str}"
+          end
+        end
+        
+        # 
 
         m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end

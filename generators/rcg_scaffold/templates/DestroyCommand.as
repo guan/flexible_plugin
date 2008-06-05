@@ -1,4 +1,4 @@
-package com.pomodo.command {
+package <%= base_package_name %>.command {
     import com.adobe.cairngorm.commands.ICommand;
     import com.adobe.cairngorm.control.CairngormEvent;
 
@@ -7,13 +7,14 @@ package com.pomodo.command {
     import <%= base_package_name %>.util.CairngormUtils;
     import <%= base_package_name %>.model.ApplicationModelLocator;
     import <%= model_name %>;
-	import <%= vo_name %>;
-	          
+    import <%= model_name %>Base;
+    import <%= vo_name %>;
+
     import mx.controls.Alert;
     import mx.rpc.IResponder;
     import mx.rpc.events.FaultEvent;
     import mx.rpc.events.ResultEvent;
-    
+
     public class Destroy<%= model_class %>Command implements ICommand, IResponder {
         public function Destroy<%= model_class %>Command() {
         }
@@ -31,10 +32,10 @@ package com.pomodo.command {
                     "The <%= model_class.downcase %> was not successfully deleted.", "Error");
             } else {
                 model.remove<%= model_class %>(
-                    <%= model_class %>.fromVO(<%= vo_class %>(event.result)));
+                    <%= model_class %>Base.fromVO(<%= vo_class %>(event.result)));
             }
         }
-    
+
         public function fault(event:Object):void {
             Alert.show("The <%= model_class.downcase %> was not successfully deleted.", "Error");
         }

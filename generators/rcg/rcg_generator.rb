@@ -48,6 +48,8 @@ class RcgGenerator < Rails::Generator::NamedBase
         m.template 'Services.mxml',
                    File.join(options[:base],
                              @base_package_path, 'business', "Services.mxml")
+        m.template 'services-config.xml',
+                   File.join(options[:base], "services-config.xml")
       end
 
     end
