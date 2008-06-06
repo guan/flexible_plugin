@@ -33,11 +33,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
         # scaffold stuff
 
         # Delegate
-        m.template 'Delegate.as',
-                   File.join(options[:base],
-                             @base_package_path,
-                             'business',
-                             "#{@model_class}Delegate.as")
+        m.dependency 'rcg_delegate', [class_name, "#{@base_package_name}"] + args
 
         # CreateCommand
         m.template 'CreateCommand.as',
@@ -116,8 +112,8 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
             "#{match}\n\n    #{setter_str}"
           end
         end
-        
-        # 
+
+        #
 
         m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end
