@@ -33,7 +33,7 @@ package <%= base_package_name %>.business {
 
         public function destroy(obj:<%= model_class %>):void {
                 var call:Object = _remoteObject.destroy.send(obj.id);
-                call.addResponser(_responder);
+                call.addResponder(_responder);
         }
     }
 }
