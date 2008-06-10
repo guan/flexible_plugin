@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%"
+    height="100%" label="Login">
+<mx:Script>
+<![CDATA[
+        import <%= base_package_name %>.model.User;
+        import <%= base_package_name %>.control.EventNames;
+        import <%= base_package_name %>.util.CairngormUtils;
+
+        private function login():void{
+                var user:User = new User();
+                user.login = loginTI.text;
+                user.password = passwordTI.text;
+                CairngormUtils.dispatchEvent(EventNames.CREATE_SESSION, user);
+        }
+]]>
+</mx:Script>
+    <mx:Form labelWidth="150">
+        <mx:FormItem required="true" label="Username">
+            <mx:TextInput id="loginTI"/>
+        </mx:FormItem>
+        <mx:FormItem required="true" label="Password">
+            <mx:TextInput id="passwordTI"
+                displayAsPassword="true"/>
+        </mx:FormItem>
+        <mx:FormItem>
+            <mx:Button id="loginButton" label="Login"
+                click="login()"/>
+        </mx:FormItem>
+    </mx:Form>
+</mx:VBox>

@@ -1,6 +1,10 @@
+# TODO Add --with-restful-authentication options
+# TODO copy components
+
 class RcgGenerator < Rails::Generator::NamedBase
   default_options :base => "app/flex",
-                  :use_xml => false
+                  :use_xml => false,
+                  :with_login_form => true
 
 
   attr_reader :base_package_name # Base Package Name
@@ -50,7 +54,28 @@ class RcgGenerator < Rails::Generator::NamedBase
                              @base_package_path, 'business', "Services.mxml")
         m.template 'services-config.xml',
                    File.join(options[:base], "services-config.xml")
+
+        m.template 'Application.mxml',
+                   File.join(options[:base], "Application.mxml")
+
+
+        if (options[:with_login_form])
+          m.template 'MainBox.mxml',
+                   File.join(options[:base], 'components', "MainBox.mxml")
+
+          m.template 'SplashBox.mxml',
+                   File.join(options[:base], 'components', "SplashBox.mxml")
+
+          m.template 'LoginBox.mxml',
+                   File.join(options[:base], 'components', "LoginBox.mxml")
+          # TODO add session resources
+
+        else
+          # TODO generate without-login
+        end
       end
+
+      #TODO with_xml
 
     end
   end
@@ -66,5 +91,7 @@ class RcgGenerator < Rails::Generator::NamedBase
     opt.on("-b", "--base=path", String, "Base path to generate Flex essentials.", "Default: #{default_options[:base]}"){ |v| options[:base] = v}
 
     opt.on("--use_xml", "Using xml to comunicate to server", "Default: false"){ |v| options[:use_xml] = v}
+
+    opt.on("--without-login-form", "Ignore generating mxml with login form.", "Default: true"){ |v| options[:with_login_form] = v}
   end
 end

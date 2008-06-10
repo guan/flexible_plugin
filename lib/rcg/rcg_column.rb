@@ -16,4 +16,30 @@ class RcgColumn
         return "String"
     end
   end
+
+  def self.columns class_name
+    columns_array = "#{class_name}".constantize.columns
+
+    columns_list = []
+    columns_array.each do |column|
+      if ignore_field? column.name
+        next
+      end
+      c = RcgColumn.new
+      c.name = column.name
+      c.type = column.type
+      columns_list.push c
+    end
+    columns_list
+  end
+
+  def self.ignore_field?(field)
+    case field
+      when 'created_at'
+        return true
+      when 'updated_at'
+        return true
+    end
+    return false
+  end
 end

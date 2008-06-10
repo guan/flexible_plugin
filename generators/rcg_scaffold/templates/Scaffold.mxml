@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" label="Books"
+         width="100%"
+         height="100%"
+         creationComplete="handleCreationComplete()"
+         xmlns:pom="<%= base_package_name %>.components.*">
+
+  <mx:Script>
+    <![CDATA[
+        import <%= base_package_name %>.model.<%=model_class %>;
+        import <%= base_package_name %>.control.EventNames;
+        import <%= base_package_name %>.util.CairngormUtils;
+        import <%= base_package_name %>.model.ApplicationModelLocator;
+
+        [Bindable]
+        public var _model:ApplicationModelLocator = ApplicationModelLocator.getInstance();
+
+        private function handleCreationComplete():void {
+            CairngormUtils.dispatchEvent(EventNames.LIST_<%= model_class.upcase %>);
+        }
+
+        public function handleDataChange():void{
+            var name:String = booksGrid.selectedItem.name;
+            if (name != null){
+                updateBookBT.enabled = true;
+            }
+        }
+
+        public function deleteBook(book:Book):void{
+            CairngormUtils.dispatchEvent(EventNames.DESTROY_BOOK, book);
+        }
+
+        private function doBookCreate() : void{
+            var book:Book = new Book();
+            book.name = nameTI.text;
+            book.code = codeTI.text;
+            book.author = authorTI.text;
+            CairngormUtils.dispatchEvent(EventNames.CREATE_BOOK, book);
+        }
+
+        private function doBookUpdate() : void{
+            var book:Book = Book(booksGrid.selectedItem);
+            book.name = nameTI.text;
+            book.code = codeTI.text;
+            book.author = authorTI.text;
+            CairngormUtils.dispatchEvent(EventNames.UPDATE_BOOK, book);
+        }
+        ]]>
+    </mx:Script>
+    <mx:VBox height="166"
+             backgroundColor="#FFFFFF"
+             cornerRadius="50" width="100%">
+
+      <mx:Spacer height="10" width="100%"/>
+      <mx:Label text="Books"/>
+      <mx:Form width="299" height="118">
+        <mx:FormItem label="名前">
+          <mx:TextInput id="nameTI" text="{booksGrid.selectedItem.name}"/>
+        </mx:FormItem>
+        <mx:FormItem label="コード">
+          <mx:TextInput id="codeTI" text="{booksGrid.selectedItem.code}"/>
+        </mx:FormItem>
+        <mx:FormItem label="著者">
+          <mx:TextInput id="authorTI" text="{booksGrid.selectedItem.author}"/>
+        </mx:FormItem>
+        <mx:HBox>
+          <mx:Button label="追加" id="createBookBT" click="doBookCreate()"/>
+          <mx:Button label="更新" id="updateBookBT" click="doBookUpdate()" enabled="false"/>
+        </mx:HBox>
+      </mx:Form>
+    </mx:VBox>
+    <mx:DataGrid width="100%"
+                 id="booksGrid"
+                 dataProvider="{_model.books}"
+                 height="100%"
+                 change="handleDataChange()"
+                 >
+      <mx:columns>
+        <mx:DataGridColumn headerText="Name" dataField="name"/>
+        <mx:DataGridColumn headerText="Code" dataField="code"/>
+        <mx:DataGridColumn headerText="Author" dataField="author"/>
+        <mx:DataGridColumn headerText="" dataField="name" width="100">
+          <mx:itemRenderer>
+            <mx:Component>
+              <mx:Button label="delete"
+                         click="outerDocument.deleteBook(Book(data))">
+                <mx:Script>
+                  <![CDATA[
+                      import mobilecrm.model.Book;
+                  ]]>
+                </mx:Script>
+              </mx:Button>
+            </mx:Component>
+          </mx:itemRenderer>
+        </mx:DataGridColumn>
+      </mx:columns>
+    </mx:DataGrid>
+</mx:VBox>

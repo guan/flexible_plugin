@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application
+   xmlns:mx="http://www.adobe.com/2006/mxml"
+   xmlns:pom="<%= base_package_name %>.components.*"
+   xmlns:business="<%= base_package_name %>.business.*"
+   xmlns:control="<%= base_package_name %>.control.*"
+   width="100%"
+   height="100%"
+   >
+
+<mx:Script>
+  <![CDATA[
+    import mx.core.Container;
+    import <%= base_package_name %>.util.DebugMessage;
+    import <%= base_package_name %>.model.ApplicationModelLocator;
+
+    [Bindable]
+    private var _model : ApplicationModelLocator = ApplicationModelLocator.getInstance();
+    public static function debug(str:String):void {
+        application.debugPanel.addMessage(new DebugMessage(str));
+    }
+
+    private function controlViewToShow(workflowState:int):Container {
+       if (workflowState == ApplicationModelLocator.VIEWING_SPLASH_SCREEN){
+            return splashBox;
+       } else if (workflowState == ApplicationModelLocator.VIEWING_MAIN_APP) {
+            return mainBox;
+       } else {
+            return splashBox;//error
+       }
+    }
+]]>
+</mx:Script>
+
+<business:Services id="services" />
+<control:ApplicationController id="controller" />
+
+<mx:VDividedBox width="100%" height="80%">
+  <mx:ViewStack id="mainStack" width="100%" height="100%"
+                creationPolicy="all" selectedChild="{controlViewToShow(_model.workflowState)}">
+    <pom:MainBox id="mainBox"/>
+    <pom:SplashBox id="splashBox"/>
+  </mx:ViewStack>
+  <pom:DebugPanel id="debugPanel" width="100%"
+                  height="20%"/>
+</mx:VDividedBox>
+</mx:Application>

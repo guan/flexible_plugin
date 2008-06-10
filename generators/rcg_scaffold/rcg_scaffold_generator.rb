@@ -155,6 +155,10 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
           end
         end
 
+        # TODO Add Service Locator
+
+        # TODO Add Scaffold Components
+
         m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end
 

@@ -7,6 +7,12 @@ package <%= base_package_name %>.model {
 
     [Bindable]
     public class ApplicationModelLocator implements IModelLocator {
+
+        public static const VIEWING_SPLASH_SCREEN:int = 0;
+        public static const VIEWING_MAIN_APP:int = 1;
+
+        public var workflowState:int = VIEWING_SPLASH_SCREEN;
+
         //
         //Singleton stuff
         //

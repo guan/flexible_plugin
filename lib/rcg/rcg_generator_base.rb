@@ -23,30 +23,7 @@ class RcgGeneratorBase < Rails::Generator::NamedBase
       @model_package = to_package_name @model_name, @model_class
     end
 
-    columns = "#{class_name}".constantize.columns
-
-    @columns = []
-    columns.each do |column|
-      if ignore_field? column.name
-        next
-      end
-      c = RcgColumn.new
-      c.name = column.name
-      c.type = column.type
-      @columns.push c
-    end
-
-  end
-
-  protected
-  def ignore_field?(field)
-    case field
-      when 'created_at'
-        return true
-      when 'updated_at'
-        return true
-    end
-    return false
+    @columns = RcgColumn.columns class_name
   end
 
   def split_class name

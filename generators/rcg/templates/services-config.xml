@@ -21,7 +21,7 @@
 		<endpoint uri="http://localhost:3000/rubyamf/gateway"
 			class="flex.messaging.endpoints.AMFEndpoint"/>
 		<!-- Server -->
-		<!-- endpoint uri="http://localhost:3000/rubyamf/gateway"
+		<!-- endpoint uri="http://192.168.100.103:3000/rubyamf/gateway"
 			class="flex.messaging.endpoints.AMFEndpoint"/ -->
 		</channel-definition>
 	</channels>
