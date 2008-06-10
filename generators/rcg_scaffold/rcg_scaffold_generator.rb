@@ -25,7 +25,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
 
-      m.dependency 'rcg', [@base_package_name]
+      #m.dependency 'rcg', [@base_package_name]
 
       unless options[:use_xml] # Use AMF
         m.dependency 'rcg_vo', [class_name, "#{@vo_name}"] + args
