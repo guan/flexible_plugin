@@ -93,7 +93,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
           end
         end
 
-        # Add setter method
+        # Add setter method to ApplicationModelLocator
         setter_str = <<-EOS
     public function set#{model_class.pluralize}(#{model_class.downcase}VOs:Array):void {
             var #{model_class.pluralize.downcase}Array:Array = [];
@@ -113,7 +113,47 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
           end
         end
 
-        #
+        #Add removeModel method to ApplicationModelLocator
+        remove_str = <<-EOS
+    public function remove#{model_class}(#{model_class.downcase}:#{model_class}):void {
+            for (var i:int = 0; i < #{model_class.pluralize.downcase}.length; i++) {
+                var ith#{model_class}:#{model_class} = #{model_class}(#{model_class.pluralize.downcase}.getItemAt(i));
+                if (ith#{model_class}.id == #{model_class.downcase}.id) {
+                    #{model_class.pluralize.downcase}.removeItemAt(i);
+                    break;
+                }
+            }
+        }
+        EOS
+
+        unless model_locator_str =~ /(#{Regexp.escape(remove_str)})/mi
+          add_reg = "model resources"
+          m.gsub_file model_locator_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n\n    #{remove_str}"
+          end
+        end
+
+        #Add updateModel method to ApplicationModelLocator
+        update_str = <<-EOS
+    public function update#{model_class}(#{model_class.downcase}:#{model_class}):void {
+            for (var i:int = 0; i < #{model_class.pluralize.downcase}.length; i++) {
+                var ith#{model_class}:#{model_class} = #{model_class}(#{model_class.pluralize.downcase}.getItemAt(i));
+                if (ith#{model_class}.id == #{model_class.downcase}.id) {
+                    #{model_class.pluralize.downcase}.setItemAt(#{model_class.downcase}, i);
+                    break;
+                }
+            }
+        }
+        EOS
+
+        unless model_locator_str =~ /(#{Regexp.escape(update_str)})/mi
+          add_reg = "model resources"
+          m.gsub_file model_locator_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n\n    #{update_str}"
+          end
+        end
 
         m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end
