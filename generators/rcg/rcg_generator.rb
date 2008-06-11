@@ -3,9 +3,7 @@
 
 class RcgGenerator < Rails::Generator::NamedBase
   default_options :base => "app/flex",
-                  :use_xml => false,
-                  :with_login_form => true
-
+                  :use_xml => false
 
   attr_reader :base_package_name # Base Package Name
 
@@ -58,41 +56,15 @@ class RcgGenerator < Rails::Generator::NamedBase
         m.template 'Application.mxml',
                    File.join(options[:base], "Application.mxml")
 
+        m.template 'MainBox.mxml',
+                   File.join(options[:base],
+                             @base_package_path,
+                             'components', "MainBox.mxml")
 
-        if (options[:with_login_form])
-          m.template 'MainBox.mxml',
-                   File.join(options[:base], 'components', "MainBox.mxml")
-
-          m.template 'SplashBox.mxml',
-                   File.join(options[:base], 'components', "SplashBox.mxml")
-
-          m.template 'LoginBox.mxml',
-                   File.join(options[:base], 'components', "LoginBox.mxml")
-
-          # User vo
-          user_model_class = "User"
-          user_model_name = "#{@base_package_name}.model.#{user_model_class}"
-
-          user_vo_class = "#{user_model_class}VO"
-          user_vo_name = "#{@base_package_name}.vo.#{user_vo_name}"
-
-          m.dependency 'rcg_vo', [user_model_class, user_vo_name]
-
-          # User model
-          m.dependency 'rcg_model', [user_model_class, user_vo_name, user_model_name]
-
-          # Session delegate
-          m.dependency 'rcg_delegate', [user_model_class, "#{@base_package_name}"] + args
-          # Session commands
-
-          # Add Session Event to EventNames
-
-          # Add Session Event to ApplicationController
-
-          # Add Login features to ApplicationModelLocator
-        else
-          # TODO generate without-login
-        end
+        m.template 'SplashBox.mxml',
+                   File.join(options[:base],
+                             @base_package_path,
+                             'components', "SplashBox.mxml")
       end
 
       #TODO with_xml
@@ -112,6 +84,5 @@ class RcgGenerator < Rails::Generator::NamedBase
 
     opt.on("--use_xml", "Using xml to comunicate to server", "Default: false"){ |v| options[:use_xml] = v}
 
-    opt.on("--without-login-form", "Ignore generating mxml with login form.", "Default: true"){ |v| options[:with_login_form] = v}
   end
 end

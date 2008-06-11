@@ -71,7 +71,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
 
         m.dependency 'rcg_command', ["Destroy#{@model_class}", "#{base_package_name}", "--skip-create"]
 
-        # ApplicationController
+        # ApplicationModelLocator
         model_locator_path = "#{options[:base]}/#{@base_package_path}/model/ApplicationModelLocator.as"
         model_locator_str = open("#{RAILS_ROOT}/#{model_locator_path}").read
         collection_str = "public var #{@model_class.pluralize.downcase}:ListCollectionView;"

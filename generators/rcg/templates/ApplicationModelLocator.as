@@ -11,6 +11,9 @@ package <%= base_package_name %>.model {
         public static const VIEWING_SPLASH_SCREEN:int = 0;
         public static const VIEWING_MAIN_APP:int = 1;
 
+        //DONOT DELETE COMMENTS BELOW
+        //Login Stuff
+
         public var workflowState:int = VIEWING_SPLASH_SCREEN;
 
         //
@@ -18,7 +21,7 @@ package <%= base_package_name %>.model {
         //
         private static var modelLocator:ApplicationModelLocator;
 
-        //DONOT DELETE COMMENT BELOW
+        //DONOT DELETE COMMENTS BELOW
         //public properties stuff
 
         public static function getInstance():ApplicationModelLocator{
@@ -28,9 +31,8 @@ package <%= base_package_name %>.model {
             return modelLocator;
         }
 
-        //DONOT DELETE COMMENT BELOW
+        //DONOT DELETE COMMENTS BELOW
         //model resources
-
 
         //The constructor should be private, but this is not
         //possible in ActionScript 3.0. So, throwing an Error if

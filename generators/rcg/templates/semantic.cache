@@ -6,7 +6,31 @@
     :major-mode 'actionscript-mode
     :tags 'nil
     :file "ApplicationModelLocator.as"
-    :pointmax 1432
+    :pointmax 1494
+    )
+   (semanticdb-table "SessionDelegate.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "SessionDelegate.as"
+    :pointmax 991
+    )
+   (semanticdb-table "ApplicationController.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "ApplicationController.as"
+    :pointmax 354
+    )
+   (semanticdb-table "CreateSessionCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "CreateSessionCommand.as"
+    :pointmax 1004
+    )
+   (semanticdb-table "DestroySessionCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "DestroySessionCommand.as"
+    :pointmax 647
     )
    )
   :file "semantic.cache"

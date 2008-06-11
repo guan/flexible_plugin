@@ -1,0 +1,27 @@
+;; Object templates/
+;; SEMANTICDB Tags save file
+(semanticdb-project-database-file "templates/"
+  :tables (list 
+    (semanticdb-table "UserVO.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "UserVO.as"
+    :pointmax 274
+    )
+   (semanticdb-table "User.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "User.as"
+    :pointmax 143
+    )
+   (semanticdb-table "UserBase.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "UserBase.as"
+    :pointmax 1429
+    )
+   )
+  :file "semantic.cache"
+  :semantic-tag-version "2.0pre3"
+  :semanticdb-version "2.0pre3"
+  )
