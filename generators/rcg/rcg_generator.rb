@@ -68,8 +68,28 @@ class RcgGenerator < Rails::Generator::NamedBase
 
           m.template 'LoginBox.mxml',
                    File.join(options[:base], 'components', "LoginBox.mxml")
-          # TODO add session resources
 
+          # User vo
+          user_model_class = "User"
+          user_model_name = "#{@base_package_name}.model.#{user_model_class}"
+
+          user_vo_class = "#{user_model_class}VO"
+          user_vo_name = "#{@base_package_name}.vo.#{user_vo_name}"
+
+          m.dependency 'rcg_vo', [user_model_class, user_vo_name]
+
+          # User model
+          m.dependency 'rcg_model', [user_model_class, user_vo_name, user_model_name]
+
+          # Session delegate
+          m.dependency 'rcg_delegate', [user_model_class, "#{@base_package_name}"] + args
+          # Session commands
+
+          # Add Session Event to EventNames
+
+          # Add Session Event to ApplicationController
+
+          # Add Login features to ApplicationModelLocator
         else
           # TODO generate without-login
         end
