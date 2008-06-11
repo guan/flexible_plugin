@@ -4,6 +4,12 @@ Rcg
 Introduction goes here.
 
 
+Install
+=======
+
+1. Install rubyamf (FlexibleRails RubyAMF branch)
+$> ./script/plugin install http://rubyamf.googlecode.com/svn/branches/flexiblerails/rubyamf
+
 Example
 =======
 

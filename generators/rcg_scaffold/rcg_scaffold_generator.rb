@@ -1,3 +1,5 @@
+require 'rcg/rcg_column'
+
 class RcgScaffoldGenerator < Rails::Generator::NamedBase
   default_options :base => "app/flex",
                   :use_xml => false
@@ -7,7 +9,8 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
               :vo_class,
               :vo_name,
               :model_class,
-              :model_name
+              :model_name,
+              :columns
 
   def initialize(runtime_args, runtime_options={ })
     super
@@ -26,6 +29,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
     record do |m|
 
       #m.dependency 'rcg', [@base_package_name]
+      @columns = RcgColumn.columns(class_name, :ignore => ["id"])
 
       unless options[:use_xml] # Use AMF
         m.dependency 'rcg_vo', [class_name, "#{@vo_name}"] + args
@@ -97,7 +101,7 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
         setter_str = <<-EOS
     public function set#{model_class.pluralize}(#{model_class.downcase}VOs:Array):void {
             var #{model_class.pluralize.downcase}Array:Array = [];
-            for each (var item:#{vo_class} in #{model_class.downcase}s) {
+            for each (var item:#{vo_class} in #{model_class.downcase}VOs) {
                 var #{model_class.downcase}:#{model_class} = #{model_class}Base.fromVO(item);
                 #{model_class.pluralize.downcase}Array.push(#{model_class.downcase});
             }
@@ -156,8 +160,36 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
         end
 
         # TODO Add Service Locator
+        # Add Service
+        services_path = "#{options[:base]}/#{@base_package_path}/business/Services.mxml"
+        services_str = open("#{RAILS_ROOT}/#{services_path}").read
+
+        remote_service_str = <<-EOS
+<mx:RemoteObject id="#{model_class.downcase}RO"
+        source="#{model_class.pluralize}Controller"
+        destination="rubyamf">
+        <mx:method name="index"/>
+        <mx:method name="create"/>
+        <mx:method name="update"/>
+        <mx:method name="destroy"/>
+    </mx:RemoteObject>
+EOS
+        unless services_str =~ /(#{Regexp.escape(remote_service_str)})/mi
+          add_reg = "xmlns:cairngorm=\"http:\/\/www.adobe.com\/2006\/cairngorm\">"
+          m.gsub_file services_path,
+          /(#{Regexp.escape(add_reg)})/mi do |match|
+            "#{match}\n\n    #{remote_service_str}"
+          end
+        end
 
         # TODO Add Scaffold Components
+
+        m.template 'Scaffold.mxml',
+                   File.join(options[:base],
+                             @base_package_path,
+                             'components',
+                             "#{model_class.pluralize}.mxml")
+
 
         m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end

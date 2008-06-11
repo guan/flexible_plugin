@@ -15,10 +15,17 @@ class RcgAuthenticationGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
 
+      m.template 'rubyamf_config.rb', File.join("config", "rubyamf_config.rb")
+
       m.template 'LoginBox.mxml',
       File.join(options[:base],
                 @base_package_path,
                 'components', "LoginBox.mxml")
+
+      m.template 'SplashBox.mxml',
+      File.join(options[:base],
+                @base_package_path,
+                'components', "SplashBox.mxml")
 
       # User vo
       user_model_class = "User"
@@ -107,6 +114,19 @@ EOS
         end
       end
 
+      # Add Login component to your SplashBox component
+
+      # Add Parameter Mapping
+
+    # ParameterMappings.register(:controller => :SessionsController, :action => :create, :params => { :login => "[0]", :password => "[1]" })
+
+      puts "#########################################"
+      puts "Authentication generated"
+      puts "Copy text blow to"
+      puts " your config/rubyamf_config.rb"
+      puts "#########################################"
+
+      puts "ParameterMappings.register(:controller => :SessionsController, :action => :create, :params => { :login => \"[0]\", :password =>\"[1]\" })"
     end
   end
 

@@ -17,7 +17,7 @@ class RcgColumn
     end
   end
 
-  def self.columns class_name
+  def self.columns(class_name, options={ })
     columns_array = "#{class_name}".constantize.columns
 
     columns_list = []
@@ -25,6 +25,13 @@ class RcgColumn
       if ignore_field? column.name
         next
       end
+
+      if options[:ignore]
+        if options[:ignore].include?(column.name)
+          next
+        end
+      end
+
       c = RcgColumn.new
       c.name = column.name
       c.type = column.type

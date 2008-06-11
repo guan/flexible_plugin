@@ -54,7 +54,7 @@ class RcgGenerator < Rails::Generator::NamedBase
                    File.join(options[:base], "services-config.xml")
 
         m.template 'Application.mxml',
-                   File.join(options[:base], "Application.mxml")
+                   File.join(options[:base], "DefaultApp.mxml")
 
         m.template 'MainBox.mxml',
                    File.join(options[:base],
@@ -65,6 +65,11 @@ class RcgGenerator < Rails::Generator::NamedBase
                    File.join(options[:base],
                              @base_package_path,
                              'components', "SplashBox.mxml")
+
+        m.template 'DebugPanel.mxml',
+                   File.join(options[:base],
+                             @base_package_path,
+                             'components', "DebugPanel.mxml")
       end
 
       #TODO with_xml

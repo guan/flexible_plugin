@@ -2,7 +2,7 @@ package <%= base_package_name %>.command {
     import com.adobe.cairngorm.commands.ICommand;
     import com.adobe.cairngorm.control.CairngormEvent;
 
-    import <%= base_package_name %>.business.UserDelegate;
+    import <%= base_package_name %>.business.SessionDelegate;
     import <%= base_package_name %>.model.ApplicationModelLocator;
 
     import mx.rpc.IResponder;

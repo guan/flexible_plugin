@@ -16,12 +16,12 @@ package <%= base_package_name %>.business {
                 ServiceLocator.getInstance().getRemoteObject(REMOTE_OBJECT_NAME);
         }
 
-        public function create(obj:Session):void {
-            var call:Object = _remoteObject.create.send(obj.toVO());
+        public function create(obj:User):void {
+            var call:Object = _remoteObject.create.send(obj.login, obj.password);
             call.addResponder(_responder);
         }
 
-        public function destroy(obj:Session):void {
+        public function destroy(obj:User):void {
             var call:Object = _remoteObject.destroy.send(obj.id);
             call.addResponder(_responder);
         }

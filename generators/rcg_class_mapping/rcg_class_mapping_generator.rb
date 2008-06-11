@@ -21,7 +21,7 @@ class RcgClassMappingGenerator < Rails::Generator::NamedBase
     record do |m|
       puts "################################"
       puts "ClassMappings generated"
-      puts "Copy below texts to "
+      puts "Copy text blow to "
       puts " your config/rubyamf_confing.rb"
       puts "################################"
 

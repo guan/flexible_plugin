@@ -4,7 +4,7 @@
 <mx:Script>
 <![CDATA[
     import mx.collections.ArrayCollection;
-    import mobilecrm.util.DebugMessage;
+    import <%= base_package_name %>.util.DebugMessage;
 
     [Bindable]
     private var _messages:ArrayCollection;

@@ -2,7 +2,7 @@
 ;; SEMANTICDB Tags save file
 (semanticdb-project-database-file "templates/"
   :tables (list 
-    (semanticdb-table "UserVO.as"
+   (semanticdb-table "UserVO.as"
     :major-mode 'actionscript-mode
     :tags 'nil
     :file "UserVO.as"
@@ -19,6 +19,23 @@
     :tags 'nil
     :file "UserBase.as"
     :pointmax 1429
+    )
+   (semanticdb-table "CreateSessionCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "CreateSessionCommand.as"
+    :pointmax 1007
+    )
+   (semanticdb-table "DestroySessionCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "DestroySessionCommand.as"
+    :pointmax 650
+    )
+   (semanticdb-table "SessionDelegate.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "SessionDelegate.as"
     )
    )
   :file "semantic.cache"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" label="Books"
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" label="<%= model_class.pluralize %>"
          width="100%"
          height="100%"
          creationComplete="handleCreationComplete()"
@@ -20,30 +20,32 @@
         }
 
         public function handleDataChange():void{
-            var name:String = booksGrid.selectedItem.name;
+            var name:String = <%= model_class.pluralize.downcase %>Grid.selectedItem.name;
             if (name != null){
-                updateBookBT.enabled = true;
+                updateBT.enabled = true;
             }
         }
 
-        public function deleteBook(book:Book):void{
-            CairngormUtils.dispatchEvent(EventNames.DESTROY_BOOK, book);
+        public function doDelete(obj:Book):void{
+            CairngormUtils.dispatchEvent(EventNames.DESTROY_<%= model_class.upcase %>, obj);
         }
 
-        private function doBookCreate() : void{
-            var book:Book = new Book();
-            book.name = nameTI.text;
-            book.code = codeTI.text;
-            book.author = authorTI.text;
-            CairngormUtils.dispatchEvent(EventNames.CREATE_BOOK, book);
+        private function doCreate() : void{
+            var obj:<%= model_class %> = new <%= model_class %>();
+<% for column in columns -%>
+            obj.<%= column.name %> = <%= column.name %>TI.text;
+<% end -%>
+
+            CairngormUtils.dispatchEvent(EventNames.CREATE_<%= model_class.upcase %>, obj);
         }
 
-        private function doBookUpdate() : void{
-            var book:Book = Book(booksGrid.selectedItem);
-            book.name = nameTI.text;
-            book.code = codeTI.text;
-            book.author = authorTI.text;
-            CairngormUtils.dispatchEvent(EventNames.UPDATE_BOOK, book);
+        private function doUpdate() : void{
+            var obj:<%= model_class %> = <%= model_class %>(<%= model_class.pluralize.downcase %>Grid.selectedItem);
+
+<% for column in columns -%>
+            obj.<%= column.name %> = <%= column.name %>TI.text;
+<% end -%>
+            CairngormUtils.dispatchEvent(EventNames.UPDATE_<%= model_class.upcase %>, obj);
         }
         ]]>
     </mx:Script>
@@ -54,39 +56,39 @@
       <mx:Spacer height="10" width="100%"/>
       <mx:Label text="Books"/>
       <mx:Form width="299" height="118">
-        <mx:FormItem label="名前">
-          <mx:TextInput id="nameTI" text="{booksGrid.selectedItem.name}"/>
+
+<% for column in columns -%>
+        <mx:FormItem label="<%= column.name %>">
+          <mx:TextInput id="<%= column.name %>TI" text="{<%= model_class.pluralize.downcase %>Grid.selectedItem.<%= column.name %>}"/>
         </mx:FormItem>
-        <mx:FormItem label="コード">
-          <mx:TextInput id="codeTI" text="{booksGrid.selectedItem.code}"/>
-        </mx:FormItem>
-        <mx:FormItem label="著者">
-          <mx:TextInput id="authorTI" text="{booksGrid.selectedItem.author}"/>
-        </mx:FormItem>
+<% end -%>
+
         <mx:HBox>
-          <mx:Button label="追加" id="createBookBT" click="doBookCreate()"/>
-          <mx:Button label="更新" id="updateBookBT" click="doBookUpdate()" enabled="false"/>
+          <mx:Button label="Create" id="createBT" click="doCreate()"/>
+          <mx:Button label="Update" id="updateBT" click="doUpdate()" enabled="false"/>
         </mx:HBox>
       </mx:Form>
     </mx:VBox>
     <mx:DataGrid width="100%"
-                 id="booksGrid"
-                 dataProvider="{_model.books}"
+                 id="<%= model_class.pluralize.downcase %>Grid"
+                 dataProvider="{_model.<%= model_class.pluralize.downcase %>}"
                  height="100%"
                  change="handleDataChange()"
                  >
       <mx:columns>
-        <mx:DataGridColumn headerText="Name" dataField="name"/>
-        <mx:DataGridColumn headerText="Code" dataField="code"/>
-        <mx:DataGridColumn headerText="Author" dataField="author"/>
-        <mx:DataGridColumn headerText="" dataField="name" width="100">
+
+<% for column in columns -%>
+        <mx:DataGridColumn headerText="<%= column.name %>" dataField="<%= column.name %>"/>
+<% end -%>
+
+        <mx:DataGridColumn headerText="" dataField="id" width="100">
           <mx:itemRenderer>
             <mx:Component>
-              <mx:Button label="delete"
-                         click="outerDocument.deleteBook(Book(data))">
+              <mx:Button label="Delete"
+                         click="outerDocument.doDelete(<%= model_class %>(data))">
                 <mx:Script>
                   <![CDATA[
-                      import mobilecrm.model.Book;
+                      import <%= model_name %>;
                   ]]>
                 </mx:Script>
               </mx:Button>
