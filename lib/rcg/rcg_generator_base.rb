@@ -3,12 +3,13 @@ require 'rcg/rcg_column'
 class RcgGeneratorBase < Rails::Generator::NamedBase
 
   attr_reader :model_name, # Model class name with package
-              :model_class, # Model class name with package
+              :model_class, # Model class name without package
               :model_package, # Model package name
               :vo_name,  #  Vo class name with pakage
               :vo_class, #  Vo class name without package
               :vo_package, # Vo package name
               :columns # columns from ActiveRecord
+              :class_name
 
   def initialize(runtime_args, runtime_options={ })
     super
@@ -16,6 +17,7 @@ class RcgGeneratorBase < Rails::Generator::NamedBase
     @vo_name = args[0]
     @vo_class = split_class @vo_name
     @vo_package = to_package_name @vo_name, @vo_class
+    @class_name = class_name.constantize
 
     if args[1]
       @model_name = args[1]

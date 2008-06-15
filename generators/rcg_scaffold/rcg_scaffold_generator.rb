@@ -2,7 +2,8 @@ require 'rcg/rcg_column'
 
 class RcgScaffoldGenerator < Rails::Generator::NamedBase
   default_options :base => "app/flex",
-                  :use_xml => false
+                  :use_xml => false,
+                  :without_component => false
 
 
   attr_reader :base_package_name,  # Base Package Name
@@ -168,10 +169,6 @@ class RcgScaffoldGenerator < Rails::Generator::NamedBase
 <mx:RemoteObject id="#{model_class.downcase}RO"
         source="#{model_class.pluralize}Controller"
         destination="rubyamf">
-        <mx:method name="index"/>
-        <mx:method name="create"/>
-        <mx:method name="update"/>
-        <mx:method name="destroy"/>
     </mx:RemoteObject>
 EOS
         unless services_str =~ /(#{Regexp.escape(remote_service_str)})/mi
@@ -184,14 +181,16 @@ EOS
 
         # TODO Add Scaffold Components
 
-        m.template 'Scaffold.mxml',
-                   File.join(options[:base],
-                             @base_package_path,
-                             'components',
-                             "#{model_class.pluralize}.mxml")
+        unless options[:without_component]
+          m.template 'Scaffold.mxml',
+          File.join(options[:base],
+                    @base_package_path,
+                    'components',
+                    "#{model_class.pluralize}.mxml")
+        end
 
+        m.dependency 'rcg_parameter_mapping', [class_name] + args
 
-        m.dependency 'rcg_class_mapping', [@model_class, "#{vo_name}"]
       end
 
     end
@@ -206,7 +205,7 @@ EOS
     opt.separator ''
     opt.separator 'Options:'
     opt.on("-b", "--base=path", String, "Base path to generate Flex essentials.", "Default: #{default_options[:base]}"){ |v| options[:base] = v}
-
     opt.on("--use_xml", "Using xml to comunicate to server", "Default: false"){ |v| options[:use_xml] = v}
+    opt.on("--without-component", "Ignore generating mxml components. ", "Default: false"){ |v| options[:without_component] = v}
   end
 end

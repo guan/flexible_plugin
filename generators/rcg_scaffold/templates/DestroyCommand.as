@@ -25,15 +25,7 @@ package <%= base_package_name %>.command {
         }
 
         public function result(event:Object):void {
-            var resultEvent:ResultEvent = ResultEvent(event);
-            var model:ApplicationModelLocator = ApplicationModelLocator.getInstance();
-            if (event.result == "error") {
-                Alert.show(
-                    "The <%= model_class.downcase %> was not successfully deleted.", "Error");
-            } else {
-                model.remove<%= model_class %>(
-                    <%= model_class %>Base.fromVO(<%= vo_class %>(event.result)));
-            }
+            CairngormUtils.dispatchEvent(EventNames.LIST_<%= model_class.upcase %>);
         }
 
         public function fault(event:Object):void {

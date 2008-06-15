@@ -20,13 +20,13 @@
         }
 
         public function handleDataChange():void{
-            var name:String = <%= model_class.pluralize.downcase %>Grid.selectedItem.name;
-            if (name != null){
+            var id:String = <%= model_class.pluralize.downcase %>Grid.selectedItem.id;
+            if (id != null){
                 updateBT.enabled = true;
             }
         }
 
-        public function doDelete(obj:Book):void{
+        public function doDelete(obj:<%= model_class %>):void{
             CairngormUtils.dispatchEvent(EventNames.DESTROY_<%= model_class.upcase %>, obj);
         }
 
@@ -54,7 +54,7 @@
              cornerRadius="50" width="100%">
 
       <mx:Spacer height="10" width="100%"/>
-      <mx:Label text="Books"/>
+      <mx:Label text="<%= model_class.pluralize %>"/>
       <mx:Form width="299" height="118">
 
 <% for column in columns -%>

@@ -6,7 +6,31 @@
     :major-mode 'actionscript-mode
     :tags 'nil
     :file "UpdateCommand.as"
-    :pointmax 1539
+    :pointmax 1286
+    )
+   (semanticdb-table "ListCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "ListCommand.as"
+    :pointmax 1243
+    )
+   (semanticdb-table "CreateCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "CreateCommand.as"
+    :pointmax 1116
+    )
+   (semanticdb-table "DestroyCommand.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "DestroyCommand.as"
+    :pointmax 1307
+    )
+   (semanticdb-table "Delegate.as"
+    :major-mode 'actionscript-mode
+    :tags 'nil
+    :file "Delegate.as"
+    :pointmax 1360
     )
    )
   :file "semantic.cache"

@@ -17,23 +17,23 @@ package <%= base_package_name %>.business {
         }
 
         public function list():void {
-            var call:Object = _remoteObject.index.send();
+            var call:Object = _remoteObject.index();
             call.addResponder(_responder);
         }
 
         public function create(obj:<%= model_class %>):void {
-                var call:Object = _remoteObject.create.send(obj.toVO());
-                call.addResponder(_responder);
+            var call:Object = _remoteObject.create(obj.toV0());
+            call.addResponder(_responder);
         }
 
         public function update(obj:<%= model_class %>):void {
-                var call:Object = _remoteObject.update.send(obj.toVO());
-                call.addResponder(_responder);
+            var call:Object = _remoteObject.update(obj.id, obj.toVO());
+            call.addResponder(_responder);
         }
 
         public function destroy(obj:<%= model_class %>):void {
-                var call:Object = _remoteObject.destroy.send(obj.id);
-                call.addResponder(_responder);
+            var call:Object = _remoteObject.destroy(obj.id);
+            call.addResponder(_responder);
         }
     }
 }

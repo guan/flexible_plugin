@@ -1,6 +1,6 @@
 package <%= vo_package %>
 {
-  [RemoteClass(alias='<%= vo_name %>')]
+  [RemoteClass(alias='<%= class_name %>')]
   [Bindable]
   public class <%= vo_class %>
   {

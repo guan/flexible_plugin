@@ -25,9 +25,6 @@ package <%= base_package_name %>.command {
         }
 
         public function result(event:Object):void {
-            var resultEvent:ResultEvent = ResultEvent(event);
-            var model:ApplicationModelLocator = ApplicationModelLocator.getInstance();
-            model.update<%= model_class %>(<%= model_class %>Base.fromVO(<%=vo_class%>(event.result)));
             CairngormUtils.dispatchEvent(EventNames.LIST_<%= model_class.upcase %>);
         }
 
